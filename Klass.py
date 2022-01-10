@@ -78,10 +78,9 @@ class Colours:
         self.acc1 = stack.get_first()
     
     def _lime(self):
-        first_char = stack.get_first()
+        first_char = stack.get_first() * 2
         stack.pop()
-        stack.push(first_char*2)
-
+        stack.push(first_char)
     def _pink(self):
         self.acc1 = 0
 
