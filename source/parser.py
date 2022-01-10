@@ -1,4 +1,5 @@
-from Klass import Stack, Colours
+from Stack import Stack
+from Commands import Colours
 import sys
 
 #f = open(sys.argv[1], 'r')
