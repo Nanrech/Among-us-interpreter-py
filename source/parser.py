@@ -2,8 +2,7 @@ from Stack import Stack
 from Commands import Colours
 import sys
 
-#f = open(sys.argv[1], 'r')
-f = open(r'C:\Users\Nan\Documents\amogus\Among-us-interpreter-py\source\_filename.sus', 'r')
+f = open(sys.argv[1], 'r')
 
 prg = f.read()
 prg = prg.split()
