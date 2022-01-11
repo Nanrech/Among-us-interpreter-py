@@ -3,7 +3,7 @@ from Commands import Colours
 import sys
 
 #f = open(sys.argv[1], 'r')
-f = open('_filename.sus', 'r')
+f = open(r'C:\Users\Nan\Documents\amogus\Among-us-interpreter-py\source\_filename.sus', 'r')
 
 prg = f.read()
 prg = prg.split()
@@ -132,9 +132,9 @@ while prgPos < len(prg):
         continue
 
     elif prg[prgPos] == "WHO" or prg[prgPos] == 'WHO?':
-        if prgPos != tempb:
+        if prgPos == tempb:
             prgPos += 1
-        elif prgPos == tempb:
+        elif prgPos != tempb:
             loopc = True
             brcC = 0
             tempb = prgPos
@@ -145,24 +145,28 @@ while prgPos < len(prg):
                     
                 elif prg[prgPos] == 'WHERE' or prg[prgPos] == 'WHERE?':
                     brcC -= 1
+                    posBSet.add(prgPos)
                     prgPos += 1
                     
                 if brcC == 0:
                     prgPos = tempb
-
-                # continue
+                    break
+            continue
     
     elif prg[prgPos] == 'WHERE?' or prg[prgPos] == 'WHERE?':
         if loopc == False:
-            pass
+            if prgPos in posBSet:
+                prgPos += 1
+                continue
+            else:
+                raise ValueError('Stray where found')
         else:
-            pass
+            if op.acc2 == stack.get_first():
+                prgPos += 1
+                continue
+            else:
+                prgPos = tempb
+                continue
 
-                
-
-
-        
-
-    prgPos += 1
-
-
+    else:
+        prgPos +=1
