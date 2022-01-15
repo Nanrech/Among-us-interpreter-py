@@ -37,19 +37,19 @@ class Commands:
     def __init__(self):
         pass
 
-    def _red(self):
+    def red(self):
         self.acc1 += 1
 
-    def _blue(self):
+    def blue(self):
         stack.push(self.acc1)
     
-    def _purple(self):
+    def purple(self):
         stack.pop()
     
-    def _green(self):
+    def green(self):
         print(chr(stack.get_first()), end = '')
     
-    def _yellow(self):
+    def yellow(self):
         _input = bytes(input('>>> '), 'ascii')
         if _input == None or _input == '':
             stack.push(0)
@@ -58,7 +58,7 @@ class Commands:
                 stack.push(byte)
                 break
     
-    def _cyan(self):
+    def cyan(self):
         if self.acc1 > stack.get_length():
             for r in range(random.randint(0, stack.get_length())):
                 stack.pop()
@@ -66,32 +66,32 @@ class Commands:
             for r in range(random.randint(0, self.acc1)):
                 stack.pop()
 
-    def _black(self):
+    def black(self):
         print(stack.get_first())
     
-    def _white(self):
+    def white(self):
         self.acc1 -= 1
     
-    def _brown(self):
+    def brown(self):
         self.acc1 = stack.get_first()
     
-    def _lime(self):
+    def lime(self):
         first_char = stack.get_first() * 2
         stack.pop()
         stack.push(first_char)
-    def _pink(self):
+    def pink(self):
         self.acc1 = 0
 
-    def _orange(self):
+    def orange(self):
         self.acc1 += 10
 
-    def _vented(self):
+    def vented(self):
         self.acc2 += 10
     
-    def _sussy(self):
+    def sussy(self):
         self.acc2 -= 1
     
-    def _electrical(self):
+    def electrical(self):
         self.acc2 = 0
 
     def print_stack(self):
