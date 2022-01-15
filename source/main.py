@@ -7,7 +7,7 @@ loop_starter:int = None
 TOKENS:list = []
 COLOURS  = {'RED', 'BLUE', 'PURPLE', 'GREEN', 'YELLOW', 'CYAN', 'BLACK', 'WHITE', 'BROWN', 'LIME', 'PINK', 'ORANGE'}
 COMMANDS = {'VENTED', 'SUSSY', 'ELECTRICAL'}
-with open(r'C:\Users\Nan\Documents\Among-us-interpreter-py\Among-us-interpreter-py\source\_filename.sus', 'r') as f:
+with open(path, 'r') as f:
     TEXT = f.read()
 
 for a in TEXT.split():
@@ -116,13 +116,13 @@ while pos < len(TOKENS):
         continue
     
     elif current.startswith('END_'):
+        #print(stack.get_first())
         if stack.get_first() != command.acc2:
-            try:
+            if loop_starter != None:
                 pos = loop_starter
                 continue
-            except:
-                if loop_starter == None:
-                    print(f'Unexpected error at TOKENS[{pos}] trying to execute {current}. \n\tWho/Where loop was attempted but there was no loop opener.')
+            else:
+                print(f'Unexpected error at TOKENS[{pos}] trying to execute {current}. \n\tWho/Where loop was attempted but there was no loop opener.')
         else:
             pos += 1
 

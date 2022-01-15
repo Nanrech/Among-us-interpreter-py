@@ -33,7 +33,7 @@ class Stack:
 stack = Stack()
 class Commands:
     acc1 = 0
-    acc2 = 0
+    acc2 = -1
     def __init__(self):
         pass
 
@@ -48,15 +48,13 @@ class Commands:
     
     def green(self):
         print(chr(stack.get_first()), end = '')
-    
+
     def yellow(self):
-        _input = bytes(input('>>> '), 'ascii')
+        _input = input('\n>>> ')
         if _input == None or _input == '':
             stack.push(0)
         else:
-            for byte in _input:
-                stack.push(byte)
-                break
+            stack.push(ord(_input))
     
     def cyan(self):
         if self.acc1 > stack.get_length():
@@ -86,9 +84,13 @@ class Commands:
         self.acc1 += 10
 
     def vented(self):
+        if self.acc2 < 0:
+            self.acc2 = 0
         self.acc2 += 10
     
     def sussy(self):
+        if self.acc2 < 0:
+            self.acc2 = 0
         self.acc2 -= 1
     
     def electrical(self):
