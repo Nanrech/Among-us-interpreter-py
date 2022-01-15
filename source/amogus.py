@@ -1,4 +1,4 @@
-from Klass import Stack, Colours
+from Heavy import Stack, Colours
 stack = Stack()
 
 # Debug "Hello, world!" program
