@@ -7,7 +7,8 @@ loop_starter:int = None
 TOKENS:list = []
 COLOURS  = {'RED', 'BLUE', 'PURPLE', 'GREEN', 'YELLOW', 'CYAN', 'BLACK', 'WHITE', 'BROWN', 'LIME', 'PINK', 'ORANGE'}
 COMMANDS = {'VENTED', 'SUSSY', 'ELECTRICAL'}
-with open(path, 'r') as f:
+file = ''
+with open(file, 'r') as f:
     TEXT = f.read()
 
 for a in TEXT.split():
@@ -113,9 +114,10 @@ while pos < len(TOKENS):
     elif current.startswith('START_'):
         loop_starter = pos
         pos += 1
-        continue
-    
+        continue 
+
     elif current.startswith('END_'):
+
         #print(stack.get_first())
         if stack.get_first() != command.acc2:
             if loop_starter != None:
@@ -123,9 +125,9 @@ while pos < len(TOKENS):
                 continue
             else:
                 print(f'Unexpected error at TOKENS[{pos}] trying to execute {current}. \n\tWho/Where loop was attempted but there was no loop opener.')
+                exit()
         else:
             pos += 1
 
     else:
         pos += 1
-

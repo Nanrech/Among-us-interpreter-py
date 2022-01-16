@@ -16,13 +16,13 @@ class Stack:
             self.items.pop(0)
 
     def print_stack(self):
-        print(self.items)
+        print(stack.items)
         
     def get_first(self):
-        if len(self.items) == 0:
-            return 0
+        if len(stack.items) < 1:
+            return None
         else:
-            return self.items[0]
+            return stack.items[0]
 
     def get_all_items(self):
         return self.items
@@ -32,10 +32,10 @@ class Stack:
 
 stack = Stack()
 class Commands:
-    acc1 = 0
-    acc2 = -1
+
     def __init__(self):
-        pass
+        self.acc1 = 0
+        self.acc2 = 0
 
     def red(self):
         self.acc1 += 1
@@ -47,15 +47,27 @@ class Commands:
         stack.pop()
     
     def green(self):
-        print(chr(stack.get_first()), end = '')
+        if stack.get_first() == None:
+            print('')
+            exit()
+        
+        else:
+            if stack.get_first() in range(32):
+                print('')
+            else:
+                print(chr(int(stack.get_first())), end = '')
 
     def yellow(self):
-        _input = input('\n>>> ')
-        if _input == None or _input == '':
+        inp = input('\n>>> ')
+
+        if inp == '':
             stack.push(0)
         else:
-            stack.push(ord(_input))
-    
+            if ord(inp) > 127:
+                print("\n\tUnexpected error; Input's ASCII value was higher than 128")
+            else:
+                stack.push(ord(inp))
+
     def cyan(self):
         if self.acc1 > stack.get_length():
             for r in range(random.randint(0, stack.get_length())):
@@ -77,6 +89,7 @@ class Commands:
         first_char = stack.get_first() * 2
         stack.pop()
         stack.push(first_char)
+
     def pink(self):
         self.acc1 = 0
 
@@ -84,17 +97,10 @@ class Commands:
         self.acc1 += 10
 
     def vented(self):
-        if self.acc2 < 0:
-            self.acc2 = 0
         self.acc2 += 10
     
     def sussy(self):
-        if self.acc2 < 0:
-            self.acc2 = 0
         self.acc2 -= 1
     
     def electrical(self):
         self.acc2 = 0
-
-    def print_stack(self):
-        return stack.items
