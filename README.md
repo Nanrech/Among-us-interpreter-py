@@ -1,5 +1,6 @@
 # Among us esolang interpreter made with python
  A simple interpreter built on Python for https://esolangs.org/wiki/Among_Us
  
- ***Currently does NOT work lmao, parser is being re-built because the last plan didn't work as intended***
+ ***Still a WIP for the foreseeable future, but feel free to test it out if you come accross this by doing
+ cd wherever/among-us-interpreter-py --> python main.py _filename.sus (Change contents of _filename.sus if you want to test more stuff)***
  
