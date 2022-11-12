@@ -1,133 +1,66 @@
-from Heavy import Stack, Commands
+import sys
 
-stack = Stack()
-command = Commands()
-temp:str = None
-loop_starter:int = None
-TOKENS:list = []
-COLOURS  = {'RED', 'BLUE', 'PURPLE', 'GREEN', 'YELLOW', 'CYAN', 'BLACK', 'WHITE', 'BROWN', 'LIME', 'PINK', 'ORANGE'}
-COMMANDS = {'VENTED', 'SUSSY', 'ELECTRICAL'}
-file = ''
-with open(file, 'r') as f:
-    TEXT = f.read()
+from classes import TheSkeld
+from utils import *
 
-for a in TEXT.split():
-    if a == 'SUS' and temp in COLOURS:
-        for a in COLOURS:
-            if temp == a:
-                TOKENS.append(f'COL_{a}')
-                break
 
-    elif a in COMMANDS:
-        temp = None
-        TOKENS.append(f'CMD_{a}')
-    
-    elif a in 'WHO?':
-        temp = None
-        TOKENS.append('START_WHO')
-    
-    elif a in 'WHERE?':
-        temp = None
-        TOKENS.append('END_WHERE')
+if __name__ == "__main__":
+    skeld: TheSkeld = TheSkeld()
+    file: str = sys.argv[-1]
+    tokens: list = []
 
-    elif a in COLOURS:
-        temp = a
-        continue
+    print(file)
 
-    else: continue
-pos:int = 0
+    if not file:
+        raise SyntaxError("Expected file path")
 
-while pos < len(TOKENS):
-    current = str(TOKENS[pos])
-    if current.startswith('COL'):
-        colour_command = current.replace('COL_', '')
-        if colour_command == 'RED':
-            command.red()
-            pos += 1
-            continue
-        elif colour_command == 'BLUE':
-            command.blue()
-            pos += 1
-            continue
-        elif colour_command == 'PURPLE':
-            command.purple()
-            pos += 1
-            continue
-        elif colour_command == 'GREEN':
-            command.green()
-            pos += 1
-            continue
-        elif colour_command == 'YELLOW':
-            command.yellow()
-            pos += 1
-            continue
-        elif colour_command == 'CYAN':
-            command.cyan()
-            pos += 1
-            continue
-        elif colour_command == 'BLACK':
-            command.black()
-            pos += 1
-            continue
-        elif colour_command == 'WHITE':
-            command.white()
-            pos += 1
-            continue
-        elif colour_command == 'BROWN':
-            command.brown()
-            pos += 1
-            continue
-        elif colour_command == 'LIME':
-            command.lime()
-            pos += 1
-            continue
-        elif colour_command == 'PINK':
-            command.pink()
-            pos += 1
-            continue
-        elif colour_command == 'ORANGE':
-            command.orange()
-            pos += 1
-            continue
+    # open file
+    with open(file, 'r') as f:
+        file = f.read()
+
+    # parse & crunch into tokens
+    temp: str = ""
+    for t in file.split():
+        if not is_valid(t):
+            raise SyntaxError(f"Invalid token: '{t}'")
+
+        if is_sus(t) and is_colour(temp):
+            tokens.append(t.lower())
         else:
-            print(f'Unexpected error at TOKENS[{pos}] trying to execute {current}. \n\tCommand type: COL')
-            exit()
-    
-    elif current.startswith('CMD'):
-        cmd_command = current.replace('CMD_', '')
-        if cmd_command == 'VENTED':
-            command.vented()
-            pos += 1
-            continue
-        elif cmd_command == 'SUSSY':
-            command.sussy()
-            pos += 1
-            continue
-        elif cmd_command == 'ELECTRICAL':
-            command.electrical()
-            pos += 1
-            continue
-        else:
-            print(f'Unexpected error at TOKENS[{pos}] trying to execute {current}. \n\tCommand type: CMD')
-            exit()
-    
-    elif current.startswith('START_'):
-        loop_starter = pos
-        pos += 1
-        continue 
+            if '?' in t:
+                tokens.append(t.replace('?', "").lower())
+                continue
+            tokens.append(t.lower())
 
-    elif current.startswith('END_'):
+    # do the tokens
+    # this first pass just checks for unclosed loops
+    i = 0
+    # 8 morbillion iq move re-using the i = 0 for the interpreter
 
-        #print(stack.get_first())
-        if stack.get_first() != command.acc2:
-            if loop_starter != None:
-                pos = loop_starter
+    for t in tokens:
+        if t == "who":
+            i += 1
+        elif t == "where":
+            i -= 1
+
+    if i != 0:
+        raise SyntaxError("Invalid syntax: unclosed who/where in file")
+
+    # And so begins the interpreter
+    # I didn't make it check for overflow/underflow bc lazy and the thingy right
+    # above should've taken care of that already
+    while i < len(tokens):
+        if tokens[i] == "who":
+            skeld.call_stack.push(i)
+
+        elif tokens[i] == "where":
+            if skeld.acc2 != skeld.stack.first:
+                i = skeld.call_stack.first
                 continue
             else:
-                print(f'Unexpected error at TOKENS[{pos}] trying to execute {current}. \n\tWho/Where loop was attempted but there was no loop opener.')
-                exit()
+                skeld.call_stack.pop()
         else:
-            pos += 1
+            skeld.interpret(tokens[i])
+        i += 1
 
-    else:
-        pos += 1
+    input("Press any key to close...")
