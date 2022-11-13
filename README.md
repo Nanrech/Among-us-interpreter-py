@@ -1,2 +1,4 @@
-# Among us esolang interpreter made with python
- A simple interpreter built on Python for https://esolangs.org/wiki/Among_Us
+# Among_Us esolang interpreter
+ https://esolangs.org/wiki/Among_Us
+ 
+ Some stuff from the examples doesn't work. I am aware and I do not care
