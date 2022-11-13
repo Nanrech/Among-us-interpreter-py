@@ -1,18 +1,19 @@
 import sys
 
 from classes import TheSkeld
-from utils import *
 
+COLOURS = {"red", "blue", "purple", "green", "yellow", "cyan", "black", "white", "brown", "lime", "pink", "orange"}
+COMMANDS = {"sus", "vented", "sussy", "electrical", "who", "who?", "where", "where?"}
 
 if __name__ == "__main__":
     skeld: TheSkeld = TheSkeld()
     file: str = sys.argv[-1]
     tokens: list = []
 
-    print(file)
+    print(f"{file}\n")
 
-    if not file:
-        raise SyntaxError("Expected file path")
+    if not file or not file.endswith(".sus"):
+        raise SyntaxError("Expected file path to a valid .sus file")
 
     # open file
     with open(file, 'r') as f:
@@ -21,16 +22,24 @@ if __name__ == "__main__":
     # parse & crunch into tokens
     temp: str = ""
     for t in file.split():
-        if not is_valid(t):
+        t = t.lower()
+
+        if not (t in COLOURS or t in COMMANDS):
             raise SyntaxError(f"Invalid token: '{t}'")
 
-        if is_sus(t) and is_colour(temp):
-            tokens.append(t.lower())
-        else:
-            if '?' in t:
-                tokens.append(t.replace('?', "").lower())
+        if t.lower() == "sus":
+            if temp in COLOURS:
+                tokens.append(temp.lower())
                 continue
-            tokens.append(t.lower())
+        else:
+            temp = t
+            if t in COLOURS:
+                continue
+
+            if '?' in t:
+                tokens.append(t.replace('?', ""))
+            else:
+                tokens.append(t)
 
     # do the tokens
     # this first pass just checks for unclosed loops
@@ -63,4 +72,4 @@ if __name__ == "__main__":
             skeld.interpret(tokens[i])
         i += 1
 
-    input("Press any key to close...")
+    input("\nPress enter to close...")
