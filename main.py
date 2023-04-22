@@ -44,8 +44,7 @@ if __name__ == "__main__":
     # do the tokens
     # this first pass just checks for unclosed loops
     i = 0
-    # 8 morbillion iq move re-using the i = 0 for the interpreter
-
+    
     for t in tokens:
         if t == "who":
             i += 1
